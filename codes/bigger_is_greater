@@ -1,0 +1,84 @@
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Result
+{
+
+    /*
+     * Complete the 'biggerIsGreater' function below.
+     *
+     * The function is expected to return a STRING.
+     * The function accepts STRING w as parameter.
+     */
+
+    public static string biggerIsGreater(string w)
+    {
+        char[] c = w.ToCharArray();
+        int len = c.Length;
+        int curr = len - 2;
+        while(curr >= 0 && c[curr] >= c[curr + 1]){
+            curr--;
+        }
+        if (curr < 0){
+            return "no answer";
+        }
+        int t = len - 1;
+        while (c[t] <= c[curr]){
+            t--;
+        }
+        
+        Swap(ref c[t], ref c[curr]);
+        
+        Reverse(c, curr + 1, len - 1);
+        
+        return new string(c);
+        
+    }
+    static void Swap(ref char x, ref char y){
+        char temp = x;
+        x = y;
+        y = temp;
+    }
+    
+    static void Reverse(char[] c, int x, int y){
+        while (x <y){
+            Swap(ref c[x], ref c[y]);
+            x++;
+            y--;
+        }
+    }
+
+}
+
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        int T = Convert.ToInt32(Console.ReadLine().Trim());
+
+        for (int TItr = 0; TItr < T; TItr++)
+        {
+            string w = Console.ReadLine();
+
+            string result = Result.biggerIsGreater(w);
+
+            textWriter.WriteLine(result);
+        }
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
